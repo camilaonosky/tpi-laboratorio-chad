@@ -68,11 +68,4 @@ public interface ILaboratorioService {
      * @return Investigador con más experimentos o null si no hay investigadores
      */
     Investigador obtenerInvestigadorMasActivo();
-    
-    /**
-     * Exporta los datos de investigadores a un archivo CSV.
-     * @param nombreArchivo Nombre del archivo a crear
-     * @return true si la exportación fue exitosa, false en caso contrario
-     */
-    boolean exportarInvestigadoresCSV(String nombreArchivo);
 }

@@ -122,25 +122,4 @@ public class LaboratorioService implements ILaboratorioService {
         }
         return masActivo;
     }
-
-    @Override
-    public boolean exportarInvestigadoresCSV(String nombreArchivo) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(nombreArchivo))) {
-            // Escribir cabecera
-            writer.println("nombre,edad,cantidad_experimentos");
-            
-            // Escribir datos de cada investigador
-            for (Investigador inv : investigadores) {
-                writer.printf("%s,%d,%d%n", 
-                    inv.getNombre(), 
-                    inv.getEdad(), 
-                    inv.getCantidadExperimentos());
-            }
-            
-            return true;
-        } catch (IOException e) {
-            System.err.println("Error al exportar archivo CSV: " + e.getMessage());
-            return false;
-        }
-    }
 }
