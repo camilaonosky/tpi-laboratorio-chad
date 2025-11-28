@@ -2,6 +2,7 @@ package com.laboratorio.chad.servicios;
 
 import com.laboratorio.chad.interfaces.ILaboratorioService;
 import com.laboratorio.chad.modelo.Investigador;
+import com.laboratorio.chad.utils.ConsolaUtil;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,30 +10,35 @@ import java.io.PrintWriter;
 import java.util.List;
 
 public class InvestigadorService {
+    private final ILaboratorioService laboratorio;
+
+    public InvestigadorService(ILaboratorioService laboratorio) {
+        this.laboratorio = laboratorio;
+    }
 
     /**
      * Registra un nuevo investigador.
      */
-    public static void registrarInvestigador(ILaboratorioService laboratorioService) {
+    public void registrarInvestigador() {
         System.out.println("=== REGISTRAR INVESTIGADOR ===");
 
-        String nombre = ConsolaService.leerTextoNoVacio("Nombre: ");
+        String nombre = ConsolaUtil.leerTextoNoVacio("Nombre: ");
 
-        int edad = ConsolaService.leerEntero("Edad: ");
+        int edad = ConsolaUtil.leerEntero("Edad: ");
         if (edad <= 0) {
             System.out.println("La edad debe ser mayor a 0.");
             return;
         }
 
         Investigador investigador = new Investigador(nombre, edad);
-        laboratorioService.registrarInvestigador(investigador);
+        laboratorio.registrarInvestigador(investigador);
         System.out.println("Investigador registrado exitosamente.");
     }
 
     /**
      * Muestra el investigador más activo.
      */
-    public static void mostrarInvestigadorMasActivo(ILaboratorioService laboratorio) {
+    public void mostrarInvestigadorMasActivo() {
         System.out.println("=== INVESTIGADOR MÁS ACTIVO ===");
 
         Investigador masActivo = laboratorio.obtenerInvestigadorMasActivo();
@@ -49,7 +55,7 @@ public class InvestigadorService {
     /**
      * Exporta los investigadores a un archivo CSV.
      */
-    public static void exportarInvestigadores(ILaboratorioService laboratorio) {
+    public void exportarInvestigadores() {
         System.out.println("=== EXPORTAR INVESTIGADORES A CSV ===");
 
         List<Investigador> investigadores = laboratorio.obtenerInvestigadores();
@@ -58,7 +64,7 @@ public class InvestigadorService {
             return;
         }
 
-        String nombreBase = ConsolaService.leerTextoNoVacio("Nombre del archivo (sin extensión): ");
+        String nombreBase = ConsolaUtil.leerTextoNoVacio("Nombre del archivo (sin extensión): ");
         String nombreArchivo = nombreBase + ".csv";
 
         boolean exito = exportarInvestigadoresCSV(nombreArchivo, investigadores);

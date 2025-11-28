@@ -5,14 +5,21 @@ import com.laboratorio.chad.modelo.Experimento;
 import com.laboratorio.chad.modelo.ExperimentoFisico;
 import com.laboratorio.chad.modelo.ExperimentoQuimico;
 import com.laboratorio.chad.modelo.Investigador;
+import com.laboratorio.chad.utils.ConsolaUtil;
 
 import java.util.List;
 
 public class ExperimentoService {
+    private final ILaboratorioService laboratorio;
+
+    public ExperimentoService(ILaboratorioService laboratorio) {
+        this.laboratorio = laboratorio;
+    }
+
     /**
      * Registra un experimento químico.
      */
-    public static void registrarExperimentoQuimico(ILaboratorioService laboratorio) {
+    public void registrarExperimentoQuimico() {
         System.out.println("=== REGISTRAR EXPERIMENTO QUÍMICO ===");
 
         List<Investigador> investigadores = laboratorio.obtenerInvestigadores();
@@ -20,7 +27,7 @@ public class ExperimentoService {
             return;
         }
 
-        String nombre = ConsolaService.leerTextoNoVacio("Nombre del experimento: ");
+        String nombre = ConsolaUtil.leerTextoNoVacio("Nombre del experimento: ");
         if (nombre == null) return;
 
         Integer duracion = leerDuracion();
@@ -28,7 +35,7 @@ public class ExperimentoService {
 
         boolean exitoso = leerResultadoExperimento();
 
-        String reactivo = ConsolaService.leerTextoNoVacio("Tipo de reactivo: ");
+        String reactivo = ConsolaUtil.leerTextoNoVacio("Tipo de reactivo: ");
         if (reactivo == null) return;
 
         Investigador investigador = seleccionarInvestigador(investigadores);
@@ -58,7 +65,7 @@ public class ExperimentoService {
      * @return La duración en minutos o null si es inválida
      */
     private static Integer leerDuracion() {
-        int duracion = ConsolaService.leerEntero("Duración (en minutos): ");
+        int duracion = ConsolaUtil.leerEntero("Duración (en minutos): ");
 
         if (duracion <= 0) {
             System.out.println("La duración debe ser mayor a 0.");
@@ -72,7 +79,7 @@ public class ExperimentoService {
      * @return true si fue exitoso, false si no
      */
     private static boolean leerResultadoExperimento() {
-        String resultadoStr = ConsolaService.leerTexto("¿Fue exitoso? (si/no): ").toLowerCase();
+        String resultadoStr = ConsolaUtil.leerTexto("¿Fue exitoso? (si/no): ").toLowerCase();
         return resultadoStr.equals("si");
     }
 
@@ -86,7 +93,7 @@ public class ExperimentoService {
             System.out.printf("%d. %s\n", i + 1, investigadores.get(i).getNombre());
         }
 
-        int seleccion = ConsolaService.leerEntero("Seleccione el investigador (número): ");
+        int seleccion = ConsolaUtil.leerEntero("Seleccione el investigador (número): ");
 
         if (seleccion < 1 || seleccion > investigadores.size()) {
             System.out.println("Selección inválida.");
@@ -99,7 +106,7 @@ public class ExperimentoService {
     /**
      * Registra un experimento físico.
      */
-    public static void registrarExperimentoFisico(ILaboratorioService laboratorio) {
+    public void registrarExperimentoFisico() {
         System.out.println("=== REGISTRAR EXPERIMENTO FÍSICO ===");
 
         List<Investigador> investigadores = laboratorio.obtenerInvestigadores();
@@ -107,7 +114,7 @@ public class ExperimentoService {
             return;
         }
 
-        String nombre = ConsolaService.leerTextoNoVacio("Nombre del experimento: ");
+        String nombre = ConsolaUtil.leerTextoNoVacio("Nombre del experimento: ");
         if (nombre == null) return;
 
         Integer duracion = leerDuracion();
@@ -115,7 +122,7 @@ public class ExperimentoService {
 
         boolean exitoso = leerResultadoExperimento();
 
-        String instrumento = ConsolaService.leerTextoNoVacio("Instrumento utilizado: ");
+        String instrumento = ConsolaUtil.leerTextoNoVacio("Instrumento utilizado: ");
         if (instrumento == null) return;
 
         ExperimentoFisico experimento = new ExperimentoFisico(
@@ -144,7 +151,7 @@ public class ExperimentoService {
 
         boolean agregarMas = true;
         while (agregarMas && experimento.getInvestigadores().size() < investigadores.size()) {
-            int seleccion = ConsolaService.leerEntero("Seleccione investigador (número) o 0 para terminar: ");
+            int seleccion = ConsolaUtil.leerEntero("Seleccione investigador (número) o 0 para terminar: ");
 
             if (seleccion == 0) {
                 agregarMas = false;
@@ -168,7 +175,7 @@ public class ExperimentoService {
     /**
      * Muestra el listado de experimentos.
      */
-    public static void mostrarListadoExperimentos(ILaboratorioService laboratorio) {
+    public void mostrarListadoExperimentos() {
         System.out.println("=== LISTADO DE EXPERIMENTOS ===");
 
         List<Experimento> experimentos = laboratorio.obtenerExperimentos();
@@ -190,7 +197,7 @@ public class ExperimentoService {
     /**
      * Muestra el experimento de mayor duración.
      */
-    public static void mostrarExperimentoMayorDuracion(ILaboratorioService laboratorio) {
+    public void mostrarExperimentoMayorDuracion() {
         System.out.println("=== EXPERIMENTO DE MAYOR DURACIÓN ===");
 
         Experimento mayor = laboratorio.obtenerExperimentoMayorDuracion();
@@ -209,7 +216,7 @@ public class ExperimentoService {
     /**
      * Muestra las estadísticas de resultados.
      */
-    public static void mostrarEstadisticas(ILaboratorioService laboratorio) {
+    public void mostrarEstadisticas() {
         System.out.println("=== ESTADÍSTICAS DE RESULTADOS ===");
 
         int exitosos = laboratorio.obtenerExperimentosExitosos();

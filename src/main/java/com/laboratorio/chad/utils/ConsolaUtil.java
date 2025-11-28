@@ -1,9 +1,9 @@
-package com.laboratorio.chad.servicios;
+package com.laboratorio.chad.utils;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class ConsolaService {
+public class ConsolaUtil {
     public static final Scanner scanner = new Scanner(System.in);
 
     public static void mostrarCabecera() {
@@ -40,10 +40,10 @@ public class ConsolaService {
      * @return El texto ingresado o null si está vacío
      */
     public static String leerTextoNoVacio(String mensaje) {
-        String texto = ConsolaService.leerTexto(mensaje);
+        String texto = ConsolaUtil.leerTexto(mensaje);
         while (texto.isEmpty()) {
             System.out.println("El texto no puede estar vacío.");
-            texto = ConsolaService.leerTexto(mensaje);
+            texto = ConsolaUtil.leerTexto(mensaje);
         }
         return texto;
     }
